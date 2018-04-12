@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content=text/html; charset=UTF-8/>
+	<title>自动化运维平台</title>
+	<link href="/static/images/base/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link href="/static/css/base/bootstrap.min.css" rel="stylesheet" />
+	<link href="/static/css/base/bootstrap-directional-buttons.min.css" rel="stylesheet" />
+	<link href="/static/css/base/base.css" rel="stylesheet" />
+	{% block css %}
+	{% endblock %}
+	
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" id='navbar'>
+	<div class="container-fluid">
+		<span class="navbar-brand" id='navbar-brand'>自动化运维平台v1.0</span>
+		<ul class="nav navbar-nav navbar-right" id="navbar-nav">
+			<li><a><span class="glyphicon glyphicon-user"></span> admin</a></li>
+			<li><a><span class="glyphicon glyphicon-bell"></span> 通知</a></li>
+			<li><a><span class="glyphicon glyphicon-question-sign"></span> 关于</a></li>
+		</ul>
+	</div>
+</nav>
+<div class="container-fluid" id='container-fluid'>  
+	<div class="row" id="row">  
+	    <div class="col-md-2" id="col-md-2">  
+	        <ul class="nav nav-pills nav-stacked">  
+	            <li><a href="/"><i class="glyphicon glyphicon-dashboard"></i>展示面板</a></li> 
+	            <li><a href="/manage/"><i class="glyphicon glyphicon-cog"></i>系统管理</a></li>  
+	            <li>
+	            	<a class="nav-header" data-toggle="collapse" data-target="#platform">
+	            		<i class="glyphicon glyphicon-th-list"></i>
+	            		平台中心<span class="pull-right glyphicon glyphicon-chevron-left"></span>
+	            	</a>
+	            	<ul id="platform" class="nav collapse" style="height: 0px;">
+	            		<li><a href="/platform/manage/"><i class="glyphicon glyphicon-wrench"></i>组件管理</a></li>
+	            		<li><a href="/platform/template/"><i class="glyphicon glyphicon-file"></i>模版管理</a></li>
+	                    <li><a href="/platform/install/"><i class="glyphicon glyphicon-tasks"></i>一键安装</a></li>
+	                    <li><a href="/platform/log/"><i class="glyphicon glyphicon-eye-open"></i>日志查看</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </div>
+	    {% block right %}
+	    
+	    {% endblock %}  
+	</div>
+</div>
+
+<script src="/static/js/base/jquery-3.2.1.min.js"></script>
+<script src="/static/js/base/bootstrap.min.js"></script>
+<script src="/static/js/base/base.js"></script>
+{% block js %}
+{% endblock %}
+</body>
+</html>

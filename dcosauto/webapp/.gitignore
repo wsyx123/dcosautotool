@@ -1,0 +1,8 @@
+/__init__.pyc
+/admin.pyc
+/deploypxe.pyc
+/form.pyc
+/models.pyc
+/redisops.pyc
+/urls.pyc
+/views.pyc

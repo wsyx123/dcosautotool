@@ -1,0 +1,204 @@
+{% extends "base/bootstrap.html" %}
+
+{% block css %}
+<link href="/static/css/platformcenter/component.css" rel="stylesheet" />
+{% endblock %}
+
+{% block right %}
+<div class="col-md-10" style="padding:0px">
+  	<ul class="breadcrumb">
+    	<li><a href="/index/"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+    	<li>平台中心</li>
+    	<li class="active">组件管理</li>
+	</ul>
+</div>
+
+<div class="col-md-10" id="table-head">
+	<div id="component-title">
+		<span>组件列表</span>
+		<div id="add-component">
+			<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default"><span class="glyphicon glyphicon-plus">新增组件</span></button>
+		</div>
+	</div>
+	
+<!-- 输入模态框（Modal） -->
+<form action="" id="component-form">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					添加DCOS控制节点组件
+				</h4>
+			</div>
+			<div class="modal-body">
+		        <div class="input-group">
+		            <span class="input-group-addon">组件名称</span>
+		            <input type="text" name="name" class="form-control">
+		        </div>
+		        <br>
+		        <div class="input-group">
+		            <span class="input-group-addon">使用模版</span>
+		            <select class="form-control" name="template">
+		            {% for template in templates %}
+		            	<option>{{ template.name }}</option>
+		            {% endfor %}
+		            </select>
+		        </div>
+		        <br>
+		        <div class="input-group">
+		            <span class="input-group-addon">所属集群</span>
+		            <select class="form-control" name="cluster">
+		            {% for cluster in clusters %}
+		            	<option>{{ cluster.name }}</option>
+		            {% endfor %}
+		            </select>
+		        </div>
+		         <br>
+		        <div class="input-group">
+		            <span class="input-group-addon">部署主机</span>
+		            <select class="form-control" name="host">
+		            {% for host in hosts %}
+		            	<option>{{ host.address }}</option>
+		            {% endfor %}
+		            </select>
+		        </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" onclick="deploy_component();" data-toggle="modal" data-target="#myinstall" data-dismiss="modal" class="btn btn-primary">确定部署</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+</form>
+	
+<!-- 安装模态框（Modal） -->	
+<div class="modal fade" id="myinstall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">
+					正在<span id="deploy-host"></span>上部署<span id="deploy-name"></span>
+				</h4>
+			</div>
+			<div class="modal-body" id="modal-body">
+				<span id="deploying">部署中...</span>
+				<span id="deploy-success" style="color:green;font-size:16px;font-weight:bold;"></span>
+				<span id="deploy-failure" style="color:red;font-size:16px;font-weight:bold;"></span>
+				<div><img alt="" src="/static/images/installing.gif"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary disabled" onclick="deploy_finish();">完成</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+	
+	
+	<div id="component-list">
+		<table class="table table-bordered">
+		  <thead>
+		    <tr>
+		      <th>集群</th>
+		      <th>容器名</th>
+		      <th>主机IP</th>
+		      <th>端口映射</th>
+		      <th>网络模式</th>
+		      <th>镜像</th>
+		      <th>模版</th>
+		      <th>创建时间</th>
+		      <th>状态</th>
+		      <th></th>
+		    </tr>
+		  </thead>
+		  <tbody style="max-height:200px;overflow-y: scroll;">
+		  {% for component in components %}
+		    <tr>
+		      <td>{{ component.cluster }}</td>
+		      <td>{{ component.name }}</td>
+		      <td>{{ component.host }}</td>
+		      <td>{{ component.cport }}:{{ component.hport }}</td>
+		      <td>{{ component.netmode }}</td>
+		      <td>{{ component.image }}</td>
+		      <td>{{ component.template }}</td>
+		      <td>{{ component.createtime|date:'Y-m-d H:i:s' }}</td>
+		      {% ifequal component.status 'up' %}
+			  <td><span style="background-color:#006400;color:white;">运行中</span></td>
+			  {% else %}
+			  <td><span style="background-color:#880000;color:white;">未运行</span></td>
+			  {% endifequal %}
+		      <td onclick="delete_component_ask(this);"><button type="button" data-toggle="modal" data-target="#mydelete" data-dismiss="modal" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i></button></td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+</div>
+
+<!-- 删除模态框（Modal） -->	
+<div class="modal fade" id="mydelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			</div>
+			<div class="modal-body" id="modal-body">
+				<h4 id="delete-component">确定删除<span id="delete-host"></span>上的<span id="delete-name"></span>组件?</h4>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="delete_component_ensure();">确定</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+<!-- 删除结果（Alert） -->	
+<div id="mySuccessAlert" class="alert alert-success">
+	<a href="#" class="close">&times;</a>
+	<strong>删除成功！</strong>
+</div>
+<div id="myFailureAlert" class="alert alert-warning">
+	<a href="#" class="close">&times;</a>
+	<strong>删除失败！</strong><span id='delete-failure'></span>。
+</div>
+
+
+<div class="col-md-10" id="component-footer">
+	<ul class="pagination">
+	   <li><a href="#">&laquo;</a></li>
+	   <li class="active"><a href="#">1</a></li>
+	   <li><a href="#">&raquo;</a></li>
+	</ul>
+</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/platformcenter/component.js"></script>
+<script>
+$(function(){
+	$(".close").click(function(){
+		$(this).parent().css('display','none');
+	});
+});  
+
+$(function (){
+    $("[data-toggle='popover']").popover(
+    {
+    	trigger:'click', //触发方式
+        html: true, // 为true的话，data-content里就能放html代码了
+        content: function() {
+            return $('#component-footer').html();
+          }
+    }		
+    );
+});
+
+</script>
+{% endblock %}

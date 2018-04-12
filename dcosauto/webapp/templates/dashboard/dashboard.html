@@ -1,0 +1,78 @@
+{% extends "base/bootstrap.html" %}
+
+{% block css %}
+<link href="/static/css/dashboard/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block right %}
+<div class="col-md-10" style="padding:0px">
+  	<ul class="breadcrumb">
+    	<li><a href="/index/"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+    	<li class="active">展示面板</li>
+	</ul>
+</div>
+
+<div class="col-md-10">
+    <div  id="cluster">
+    	<div>集群数</div>
+    	<br>
+    	<div>{{ clusters }}</div>
+    </div>
+    <div  id="host">
+        <div>主机数</div>
+        <br>
+    	<div>{{ hosts }}</div>
+    </div>
+    <div id="component">
+        <div>组件数</div>
+        <br>
+    	<div>{{ components }}</div>
+    </div>
+    <div  id="template">
+        <div>模版数</div>
+        <br>
+    	<div>{{ templates }}</div>
+    </div>
+    <div class="table-responsive" id="record">
+    	<table class="table table-condensed">
+		  <thead>
+		    <tr>
+		      <th>操作名称</th>
+		      <th>操作日期</th>
+		      <th>状态</th></tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td>在20.26.33.176上部署mysql1</td>
+		      <td>2018-03-22 15:12:21</td>
+		      <td style="color:#5cb85c;">完成</td></tr>
+		    <tr>
+		      <td>在20.26.33.177上部署redis1</td>
+		      <td>2018-03-22 15:12:21</td>
+		      <td style="color:#5cb85c;">完成</td></tr>
+		    <tr>
+		      <td>在20.26.33.176上部署influxdb1</td>
+		      <td>2018-03-22 15:12:21</td>
+		      <td style="color:#CC0000;">失败</td></tr>
+		      <tr>
+		      <td>在20.26.33.176上部署mysql1</td>
+		      <td>2018-03-22 15:12:21</td>
+		      <td style="color:#5cb85c;">完成</td></tr>
+		    <tr>
+		      <td>在20.26.33.177上部署redis1</td>
+		      <td>2018-03-22 15:12:21</td>
+		      <td style="color:#5cb85c;">完成</td></tr>
+		    <tr>
+		      <td>在20.26.33.176上部署influxdb1</td>
+		      <td>2018-03-22 15:12:21</td>
+		      <td style="color:#CC0000;">失败</td></tr>
+		  </tbody>
+		</table>
+    </div>
+    
+</div>
+
+
+
+
+{% endblock %}

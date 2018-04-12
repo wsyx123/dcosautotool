@@ -1,0 +1,38 @@
+#cluster,#component,#template,#host{
+	color:#fff;
+	text-align:center;
+    margin: 8px auto 0;
+    padding: 40px;
+    font-size: 24px;
+    height: 160px;
+    width:160px;
+    margin-left:100px;
+    line-height: 20px;
+    float:left;
+    -moz-border-radius: 80px; 
+	-webkit-border-radius: 80px; 
+	border-radius: 80px; 
+}
+
+#cluster{
+	background-color:#458ce9;
+}
+
+#host{
+	background-color:#99FF99;
+}
+
+#component{
+	background-color:#5cb85c;
+}
+
+#template{
+	background-color:#DDDDDD;
+}
+
+#record{
+	margin-top:200px;
+	margin-right:50px;
+	margin-left:50px;
+	
+}

@@ -1,0 +1,392 @@
+{% extends "base/bootstrap.html" %}
+
+{% block css %}
+<link href="/static/css/platformcenter/install.css" rel="stylesheet">
+{% endblock %}
+
+{% block right %}
+<div class="col-md-10" style="padding:0px">
+  	<ul class="breadcrumb">
+    	<li><a href="/index/"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+    	<li>平台中心</li>
+    	<li class="active">一键安装</li>
+	</ul>
+</div>
+
+<div id="install-setup">
+	<div id="directional">
+		<button type="button" class="btn btn-info active btn-arrow-right">基本信息</button>
+		<button type="button" class="btn btn-info btn-arrow-right">mysql配置</button>
+		<button type="button" class="btn btn-info btn-arrow-right">redis配置</button>
+		<button type="button" class="btn btn-info btn-arrow-right">influxdb配置</button>
+		<button type="button" class="btn btn-info btn-arrow-right">rabbitmq配置</button>
+		<button type="button" class="btn btn-info btn-arrow-right">dockbox-*配置</button>
+		<button type="button" class="btn btn-info btn-arrow-right">icloud配置</button>
+		<button type="button" class="btn btn-info btn-arrow-right">edgebox配置</button>
+	</div>
+	<div id="install-form">
+		<form action="" method="post">
+		<!-- 基本信息 -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">集群名称</label>
+            		<input type="text" class="form-control" name="name" placeholder="可以由字符和数字以及点组成">
+        		</div>
+        		<br>
+        		<div class="input-group">
+            		<label for="name">集群版本</label>
+            		<input type="text" class="form-control" name="version" placeholder="可以由字符和数字以及点组成">
+        		</div>
+			</div>
+		<!-- mysql信息 -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">mysql基本信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="myname"  value="mysql">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="mynetmode" >
+					      <option>bridge</option>
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="myhost" >
+	            		{% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="myimage" value="20.26.25.155:5000/mysql:0306">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">mysql端口映射</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器端口</span>
+            			<input type="text" class="form-control" name="mycport" value="3306">
+            			<span class="input-group-addon">主机端口</span>
+            			<input type="text" class="form-control" name="myhport" value="3366">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">mysql环境变量</label>
+            		<input type="text" class="form-control" style="width:344%;" name="myenv" value="MYSQL_ROOT_PASSWORD=root,MYSQL_DATABASE=v3">
+        		</div>
+        		<div class="input-group">
+            		<label for="name">mysql卷映射</label>
+            		<input type="text" class="form-control" style="width:363%;" name="myvolume" value="/data/dcos3.0/db:/var/lib/mysql">
+        		</div>
+			</div>
+			
+			<!-- redis信息 -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">redis基本信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="rename" value="redis">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="renetmode">
+					      <option>bridge</option>
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="rehost">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="reimage" value="20.26.25.155:5000/redis:3.2.11">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">redis端口映射</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器端口</span>
+            			<input type="text" class="form-control" name="recport" value="6379">
+            			<span class="input-group-addon">主机端口</span>
+            			<input type="text" class="form-control" name="rehport" value="6379">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">redis环境变量</label>
+            		<input type="text" class="form-control" style="width:352%;" name="reenv" value="">
+        		</div>
+        		<div class="input-group">
+            		<label for="name">redis卷映射</label>
+            		<input type="text" class="form-control" style="width:372%;" name="revolume" value="/data/dcos3.0/redis:/data">
+        		</div>
+			</div>
+			
+			<!-- influxdb信息 -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">influxdb基本信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="inname" value="influxdb">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="innetmode" >
+					      <option>bridge</option>
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="inhost">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="inimage" value="20.26.25.155:5000/influxdb:1.4">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">influxdb端口映射</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器端口</span>
+            			<input type="text" class="form-control" name="incport" value="8086">
+            			<span class="input-group-addon">主机端口</span>
+            			<input type="text" class="form-control" name="inhport" value="8086">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">influxdb环境变量</label>
+            		<input type="text" class="form-control" style="width:325%;" name="inenv" value="INFLUXDB_DB=dcos">
+        		</div>
+        		<div class="input-group">
+            		<label for="name">influxdb卷映射</label>
+            		<input type="text" class="form-control" style="width:343%;" name="involume" value="/data/dcos3.0/influxdb:/var/lib/influxdb">
+        		</div>
+			</div>
+			
+			<!-- rabbitmq信息 -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">rabbitmq基本信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="raname" value="rabbitmq">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="ranetmode" >
+					      <option>bridge</option>
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="rahost">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="raimage" value="20.26.28.55:80/dcos/rabbitmq:3-management">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">rabbitmq端口映射</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器端口</span>
+            			<input type="text" class="form-control" name="racport" value="5672">
+            			<span class="input-group-addon">主机端口</span>
+            			<input type="text" class="form-control" name="rahport" value="5672">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">rabbitmq环境变量</label>
+            		<input type="text" class="form-control" style="width:323%;" name="raenv" value="RABBITMQ_DEFAULT_USER=dcos,RABBITMQ_DEFAULT_PASS=dcos,RABBITMQ_DEFAULT_VHOST=dcosvhost">
+        		</div>
+        		<div class="input-group">
+            		<label for="name">rabbitmq卷映射</label>
+            		<input type="text" class="form-control" style="width:340%;" name="ravolume" value="">
+        		</div>
+			</div>
+			
+			<!-- dockbox-*信息 -->
+			<div class="install">  
+			 	<!-- dockbox  -->
+				<div class="input-group">
+            		<label for="name">dockbox信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="do1name" value="dockbox">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="do1netmode" >
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="do1host">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="do1image" value="20.26.25.155:5000/dcos/dockbox:v3-prd-27">
+            		</div>
+        		</div>
+        	<!-- dockbox-celery  -->
+        		<div class="input-group">
+            		<label for="name">dockbox-celery信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="do2name" value="dockbox-celery">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="do2netmode">
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="do2host">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="do2image" value="20.26.25.155:5000/dcos/dockbox-celery:v3-prd-8">
+            		</div>
+        		</div>
+        		<!-- dockbox-flower  -->
+        		<div class="input-group">
+            		<label for="name">dockbox-flower信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="do3name" value="dockbox-flower">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="do3netmode">
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="do3host">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="do3image" value="20.26.25.155:5000/dcos/dockbox-flower:v3-rel-3">
+            		</div>
+        		</div>
+        		
+        		<!-- dockbox-task  -->
+        		<div class="input-group">
+            		<label for="name">dockbox-task信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="do4name" value="dockbox-task">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="do4netmode">
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="do4host">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="do4image" value="20.26.25.155:5000/dcos/dockbox-tasks:v3-prd-12">
+            		</div>
+        		</div>
+        		
+        		<!-- dockbox common info -->
+        		<div class="input-group">
+        			<label for="name">common信息</label>
+        			<div class="input-group">
+        				<span class="input-group-addon">celery_broker_url</span>
+        				<input type="text" class="form-control" style="width:380px" name="broker_url" value="amqp://dcos:dcos@20.26.33.176:5672/dcosvhost">
+        				<span class="input-group-addon">docklet 端口</span>
+        				<input type="text" class="form-control" name="dockletport" value="6063">
+        			</div>
+        		</div>
+			</div>
+			<!-- icloud info -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">icloud基本信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="icname" value="icloud">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="icnetmode" >
+					      <option>bridge</option>
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="ichost">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="icimage" value="20.26.25.155:5000/icloud:v3.2_vue-dev-111">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">icloud端口映射</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器端口</span>
+            			<input type="text" class="form-control" name="iccport" value="80">
+            			<span class="input-group-addon">主机端口</span>
+            			<input type="text" class="form-control" name="ichport" value="80">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">icloud环境变量</label>
+            		<input type="text" class="form-control" style="width:344%;" name="icenv" value="DOCKBOX_HOST=20.26.33.176,URL_INTERFACE=20.26.33.176:6060,URL_FRONTEND=20.26.33.176,USER_LOGIN_TYPE=password">
+        		</div>
+        		<div class="input-group">
+            		<label for="name">icloud卷映射</label>
+            		<input type="text" class="form-control" style="width:363%;" name="icvolume" value="">
+        		</div>
+			</div>
+			<!-- edgebox info -->
+			<div class="install">
+				<div class="input-group">
+            		<label for="name">edgebox基本信息</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器名</span>
+            			<input type="text" class="form-control" style="width:130px" name="edname" value="edgebox">
+            			<span class="input-group-addon">网络模式</span>
+            			<select class="form-control" name="ednetmode">
+					      <option>bridge</option>
+					      <option>host</option>
+					    </select>
+            			<span class="input-group-addon">部署主机</span>
+	            		<select class="form-control" name="edhost">
+					    {% for host in hosts %}
+					      <option>{{ host.address }}</option>
+					    {% endfor %}
+					    </select>
+					    <span class="input-group-addon">镜像</span>
+            			<input type="text" class="form-control" style="width:380px" name="edimage" value="20.26.25.155:5000/edgebox:v3-prd-16">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">edgebox端口映射</label>
+            		<div class="input-group">
+            			<span class="input-group-addon">容器端口</span>
+            			<input type="text" class="form-control" name="edcport" value="80">
+            			<span class="input-group-addon">主机端口</span>
+            			<input type="text" class="form-control" name="edhport" value="80">
+            		</div>
+        		</div>
+        		<div class="input-group">
+            		<label for="name">edgebox环境变量</label>
+            		<input type="text" class="form-control" style="width:323%;" name="edenv" value="DOCKBOX_V3_HOST=20.26.28.187,DOCKBOX_V3_PORT=6060">
+        		</div>
+        		<div class="input-group">
+            		<label for="name">edgebox卷映射</label>
+            		<input type="text" class="form-control" style="width:340%;" name="edvolume" value="/data/applogs:/data/applogs,/dcosweb/data/attach:/dcosweb/data/attach">
+        		</div>
+			</div>
+			
+			<div id="install-button">
+				<button type="submit" class="btn btn-success">提交</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/platformcenter/install.js"></script>
+{% endblock %}

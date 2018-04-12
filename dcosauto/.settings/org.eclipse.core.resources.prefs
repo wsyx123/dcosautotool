@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//webapp/admin.py=utf-8
+encoding//webapp/apps.py=utf-8
+encoding//webapp/common/docker_create_pull.py=utf-8
+encoding//webapp/common/dockerapi125.py=utf-8
+encoding//webapp/common/httplibapi.py=utf-8
+encoding//webapp/common/urllib2_http.py=utf-8
+encoding//webapp/forms/component.py=utf-8
+encoding//webapp/forms/dockerjsonformat.py=utf-8
+encoding//webapp/forms/install.py=utf-8
+encoding//webapp/models.py=utf-8
+encoding//webapp/platformcenter/component.py=utf-8
+encoding//webapp/platformcenter/install.py=utf-8
+encoding//webapp/platformcenter/log.py=utf-8
+encoding//webapp/platformcenter/template.py=utf-8
+encoding//webapp/tests.py=utf-8
+encoding//webapp/views.py=utf-8

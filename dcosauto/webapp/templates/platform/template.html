@@ -1,0 +1,89 @@
+{% extends "base/bootstrap.html" %}
+
+{% block css %}
+<link href="/static/css/platformcenter/template.css" rel="stylesheet">
+{% endblock %}
+
+{% block right %}
+<div class="col-md-10" style="padding:0px">
+  	<ul class="breadcrumb">
+    	<li><a href="/index/"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+    	<li>平台中心</li>
+    	<li class="active">模版管理</li>
+	</ul>
+</div>
+
+<div id="component-show">
+	<div id="component-title">
+		<span>模版列表</span>
+		<div id="add-template">
+			<a href="/admin/webapp/platformtemplate/" class="btn btn-default"><span class="glyphicon glyphicon-plus">新增模版</span></a>
+		</div>
+	</div>
+	<div id="component-list">
+		<table class="table table-bordered">
+		  <thead>
+		    <tr>
+		      <th>模版名</th>
+		      <th>类型</th>
+		      <th>说明</th>
+		      <th>网络模式</th>
+		      <th>容器端口</th>
+		      <th>主机端口</th>
+		      <th>镜像</th>
+		      <th>创建时间</th>
+		      <th></th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  {% for template in templates %}
+		    <tr>
+		      <td>{{ template.name }}</td>
+		      <td>{{ template.type }}</td>
+		      <td>{{ template.label }}</td>
+		      <th>{{ template.netmode }}</th>
+		      <td>{{ template.cport }}</td>
+		      <td>{{ template.hport }}</td>
+		      <th>{{ template.image }}</th>
+		      <th>{{ template.createtime|date:'Y-m-d H:i:s' }}</th>
+		      <th><button type="button" class="btn btn-info" title="{{ template.name }}模版详情" data-container="body" 
+		      data-toggle="popover" data-placement="left"
+		      data-content="<table class='table table-bordered'>
+		      <tr><th width='75'>Env:</th><td><pre>{{ template.env }}</pre></td></tr>
+		      <tr><th width='75'>Volume:</th><td><pre>{{ template.volume }}</pre></td></tr>
+		      <tr><th width='90'>dockerfile:</th><td><pre>{{ template.dockerfile }}</pre></td></tr>
+		      </table>">详情</button></th>
+		    </tr>
+		   {% endfor %}
+		    <tr>
+		      <td id="component-footer" colspan="10">
+				<ul class="pagination">
+				   <li><a href="#">&laquo;</a></li>
+				   <li class="active"><a href="#">1</a></li>
+				   <li><a href="#">&raquo;</a></li>
+				</ul>
+		      </td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+$(function (){
+    $("[data-toggle='popover']").popover(
+    {
+    //	trigger:'click', //触发方式
+        html: true, // 为true的话，data-content里就能放html代码了
+     //   content: function() {
+    //        return $('#component-footer').html();
+     //     }
+    }		
+    );
+});
+</script>
+{% endblock %}

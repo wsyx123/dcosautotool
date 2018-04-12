@@ -1,0 +1,43 @@
+#navbar{
+	background-color:#438eb9;
+}
+#navbar-brand,#navbar-nav li a{
+	color:white;
+}
+
+#navbar-nav{
+	margin-right:20px;
+}
+
+#container-fluid{
+	margin-top:51px;
+	height:615px;
+}
+
+#col-md-2{
+	height:615px;
+	border-right:2px solid #DDDDDD;
+	background-color:#f2f2f2;
+}
+
+#platform{
+	margin-left:20px;
+}
+
+#platform a{
+	color:black;
+}
+
+#platform .active a{
+	color:green;
+}
+
+.breadcrumb>li+li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: ">";
+}
+
+.row{
+	height:615px;
+}

@@ -1,0 +1,70 @@
+#mark{
+	width:100px;
+	position:0;
+	background-color:gray;
+}
+
+#table-head{
+	margin:0px;
+	height:510px;
+	overflow:auto;
+}
+
+#component-title{
+	padding:10px;
+	color:white;
+	background-color:#5599FF;
+}
+
+#add-component{
+	float:right;
+}
+
+#delete-component{
+	color:#FF5511;
+}
+
+#component-list{
+	margin:0px;
+}
+
+#component-footer{
+	width:1091px;
+	margin-left:15px;
+	padding-top:3px;
+	height:45px;
+	text-align:center;
+	border:1px solid #ddd;
+	background-color:#eff3f8;
+}
+
+#component-footer .pagination{
+	margin:0px;
+}
+
+.btn{
+	font-size:12px;
+	padding:3px 6px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 6px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+#modal-body{
+	text-align:center;
+}
+
+#mySuccessAlert,#myFailureAlert{
+	display:none;
+}
+
+.alert{
+	position:absolute;
+	margin-left:1065px;
+	width:300px;
+	height:60px;
+}	

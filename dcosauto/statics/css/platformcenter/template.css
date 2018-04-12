@@ -1,0 +1,54 @@
+#component-show{
+	margin-left:250px;
+	margin-top:50px;
+	margin-right:20px;
+}
+
+#component-title{
+	padding:10px;
+	color:white;
+	background-color:#5599FF;
+}
+
+#add-template{
+	float:right;
+	margin-bottom:4px;
+}
+
+#component-list{
+	margin:0px;
+	overflow:auto;
+}
+
+#component-footer{
+	text-align:center;
+	background-color:#eff3f8;
+}
+
+#component-footer .pagination{
+	margin:0px;
+}
+
+.btn{
+	font-size:12px;
+	padding:3px 6px;
+}
+
+.popover{
+	max-width:490px;
+	word-break: break-all;
+}
+
+pre{
+	width:360px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 6px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+
+
